@@ -33,4 +33,4 @@ Message: Welcome to gRPC world, Johnny Walker
 ```
 
 ## Testing with Insomnia
-![grpc-fun](https://i.ibb.co/X8V7Mxd/grpc-fun.png)
+![grpc-fun](https://i.ibb.co/pynf5js/grpc-fun.png)
