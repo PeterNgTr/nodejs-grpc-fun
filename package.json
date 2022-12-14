@@ -2,10 +2,11 @@
   "name": "nodejs-grpc-fun",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start:server": "nodemon welcome_server.js",
-    "start:client": "node welcome_client.js"
+    "start:server": "forever start ./src/server/index.js",
+    "start:client": "node ./src/client/welcome.js",
+    "test": "mocha ./src/client/welcome.test.js",
+    "ci": "npm run start:server & npm test"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +14,10 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.8.0",
     "@grpc/proto-loader": "^0.7.4",
+    "expect": "^29.3.1",
+    "forever": "^4.0.3",
     "minimist": "^1.2.7",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.20"
   }
 }

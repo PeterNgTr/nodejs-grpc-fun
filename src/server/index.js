@@ -1,8 +1,8 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
+const { data } = require('../data');
 
-const PROTO_PATH = __dirname + '/welcome.proto';
-const DEFAULT_PORT = '50051';
+const PROTO_PATH = './src/proto/welcome.proto';
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
@@ -18,7 +18,7 @@ const welcome_proto = grpc.loadPackageDefinition(packageDefinition).welcome;
 * Implements the SayWelcome RPC method.
 */
 
-function SayWelcome(call, callback) {
+async function SayWelcome(call, callback) {
   callback(null, { message: 'Welcome to gRPC world, ' + call.request.name });
 }
 
@@ -27,20 +27,17 @@ function SayWelcome(call, callback) {
 * sample server port
 */
 
-function main() {
+async function main() {
   const server = new grpc.Server();
 
-  server.addService(welcome_proto.Welcome.service, { SayWelcome: SayWelcome });
+  server.addService(welcome_proto.Welcome.service, { SayWelcome });
 
-  server.bindAsync(
-    `0.0.0.0:${DEFAULT_PORT}`,
-
-    grpc.ServerCredentials.createInsecure(),
-
-    () => {
-      server.start();
-      console.log(`Server is up and running: 0.0.0.0:${DEFAULT_PORT}`)
-    }
+  server.bindAsync(`0.0.0.0:${data.defaultPort}`, 
+  grpc.ServerCredentials.createInsecure(), 
+  (error, port) => {
+    console.log(`Server running at http://127.0.0.1:${port}`);
+    server.start();
+  }
   );
 }
 
